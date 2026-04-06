@@ -23,7 +23,7 @@ usersRouter.get('/:id', (req, res) => {
   const user = db.select({
     id: users.id, username: users.username, displayName: users.displayName,
     avatarUrl: users.avatarUrl, createdAt: users.createdAt, lastSeenAt: users.lastSeenAt,
-  }).from(users).where(eq(users.id, req.params.id)).get();
+  }).from(users).where(eq(users.id, req.params.id as string)).get();
   if (!user) return res.status(404).json({ error: 'User not found' });
   res.json(user);
 });
@@ -36,7 +36,7 @@ usersRouter.patch('/:id/status', requireAdmin, (req, res) => {
   }
   db.update(users)
     .set({ registrationStatus: status, updatedAt: new Date().toISOString() })
-    .where(eq(users.id, req.params.id))
+    .where(eq(users.id, req.params.id as string))
     .run();
   res.json({ ok: true });
 });

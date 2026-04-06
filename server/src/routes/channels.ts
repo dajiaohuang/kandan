@@ -18,7 +18,7 @@ channelsRouter.get('/', (_req, res) => {
 
 // Get channel + recent messages
 channelsRouter.get('/:id', (req, res) => {
-  const channel = db.select().from(channels).where(eq(channels.id, req.params.id)).get();
+  const channel = db.select().from(channels).where(eq(channels.id, req.params.id as string)).get();
   if (!channel) return res.status(404).json({ error: 'Channel not found' });
   const recent = db.select().from(messages)
     .where(eq(messages.channelId, req.params.id))
@@ -52,7 +52,7 @@ channelsRouter.post('/', requireAdmin, (req, res) => {
 channelsRouter.delete('/:id', requireAdmin, (req, res) => {
   db.update(channels)
     .set({ isArchived: true, updatedAt: new Date().toISOString() })
-    .where(eq(channels.id, req.params.id))
+    .where(eq(channels.id, req.params.id as string))
     .run();
   res.status(204).send();
 });
