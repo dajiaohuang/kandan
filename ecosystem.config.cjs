@@ -15,5 +15,16 @@ module.exports = {
       autorestart: true,
       max_restarts: 10,
     },
+    {
+      name: 'kandan-frontend',
+      script: 'npx',
+      args: 'ng serve --proxy-config proxy.conf.json',
+      cwd: __dirname + '/client',
+      env: {
+        NODE_ENV: 'development',
+      },
+      autorestart: true,
+      max_restarts: 5,
+    },
   ],
 };
